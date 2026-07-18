@@ -1,5 +1,9 @@
 # PixPress
 
+[![Dernière version](https://img.shields.io/github/v/release/fabriquetonvoyage/PixPress?label=version)](https://github.com/fabriquetonvoyage/PixPress/releases/latest)
+[![Télécharger](https://img.shields.io/github/downloads/fabriquetonvoyage/PixPress/total?label=téléchargements)](https://github.com/fabriquetonvoyage/PixPress/releases/latest)
+[![Licence MIT](https://img.shields.io/github/license/fabriquetonvoyage/PixPress)](LICENSE)
+
 Conversion et compression d'images **par lot**, simple et rapide, pour macOS.
 Glissez vos images, choisissez le format et la qualité, enregistrez — c'est tout.
 
@@ -8,6 +12,23 @@ Application **native Apple Silicon** (100 % arm64, sans Electron), écrite en
 [Imagine](https://github.com/meowtec/Imagine).
 
 ![Capture d'écran de PixPress](PixPress-Screenshot.webp)
+
+## Télécharger
+
+Application prête à l'emploi (Mac **Apple Silicon**, **macOS 15+**) :
+
+**➜ [Télécharger la dernière version](https://github.com/fabriquetonvoyage/PixPress/releases/latest)**
+puis décompressez et placez `PixPress.app` dans **Applications**.
+
+L'app n'étant pas notarisée par Apple, macOS la bloque au premier lancement.
+Pour l'autoriser **une seule fois**, exécutez dans le Terminal :
+
+```bash
+xattr -dr com.apple.quarantine /Applications/PixPress.app
+```
+
+*Alternative sans Terminal :* double-cliquez l'app, puis
+**Réglages Système → Confidentialité et sécurité → « Ouvrir quand même »**.
 
 ## Fonctionnalités
 
