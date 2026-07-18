@@ -7,6 +7,8 @@ Application **native Apple Silicon** (100 % arm64, sans Electron), écrite en
 **Swift / SwiftUI** et compilée avec Swift Package Manager. Inspirée de
 [Imagine](https://github.com/meowtec/Imagine).
 
+![Capture d'écran de PixPress](PixPress-Screenshot.webp)
+
 ## Fonctionnalités
 
 - Glisser-déposer d'images (ou de dossiers entiers), traitement **par lot**
