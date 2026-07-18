@@ -13,3 +13,6 @@ AppIcon.iconset/
 
 # Claude Code local settings
 .claude/
+
+# Release archives
+*.zip
