@@ -18,7 +18,9 @@ struct PixPressApp: App {
     @StateObject private var model = AppModel.shared
 
     var body: some Scene {
-        WindowGroup("PixPress") {
+        // A single, unique window (not WindowGroup) so opening several files at
+        // once funnels them all into one window instead of spawning one per file.
+        Window("PixPress", id: "main") {
             ContentView()
                 .environmentObject(model)
         }
