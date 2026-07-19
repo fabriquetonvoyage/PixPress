@@ -87,3 +87,16 @@ Formats : `webp`, `jpeg`, `png`, `heic`, `avif`.
   sensiblement plus léger que l'encodeur ImageIO à qualité équivalente.
 - Le **PNG** est ré-encodé sans perte (métadonnées supprimées). Pour réduire fortement
   le poids d'un PNG, convertissez-le en **WebP** (avec ou sans perte).
+
+## Publier une version (mainteneur)
+
+Les releases sont automatisées par GitHub Actions
+([`.github/workflows/release.yml`](.github/workflows/release.yml)). Pour publier :
+
+```bash
+git tag v1.1.0
+git push origin v1.1.0
+```
+
+Le workflow cale la version de l'app sur le tag, compile sur un runner
+Apple Silicon, empaquette `PixPress.app` et crée la release avec l'archive `.zip`.

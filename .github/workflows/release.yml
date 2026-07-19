@@ -1,0 +1,63 @@
+name: Release
+
+# Crée automatiquement une release GitHub à chaque tag « vX.Y.Z » :
+# build → zip → upload. Il suffit de pousser un tag :
+#   git tag v1.1.0 && git push origin v1.1.0
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    # Runner Apple Silicon : Homebrew dans /opt/homebrew (chemins de Package.swift)
+    # et binaire arm64, cohérent avec la cible macOS 15.
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Toolchain Swift
+        run: swift --version
+
+      - name: Installer libwebp et mozjpeg
+        run: brew install webp mozjpeg
+
+      - name: Caler la version de l'app sur le tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $VERSION" Info.plist
+
+      - name: Compiler et empaqueter PixPress.app
+        run: ./build.sh release
+
+      - name: Créer l'archive
+        run: ditto -c -k --keepParent PixPress.app "PixPress-${VERSION}.zip"
+
+      - name: Publier la release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cat > /tmp/notes.md <<'EOF'
+          ### Installation
+          1. Téléchargez l'archive `.zip` ci-dessous et décompressez-la.
+          2. Placez `PixPress.app` dans **Applications**.
+          3. L'app n'étant pas notarisée par Apple, autorisez-la **une seule fois** :
+             ```
+             xattr -dr com.apple.quarantine /Applications/PixPress.app
+             ```
+             *Alternative sans Terminal :* Réglages Système → Confidentialité et sécurité → « Ouvrir quand même ».
+
+          Configuration requise : Mac **Apple Silicon**, **macOS 15+**.
+          EOF
+          gh release create "$GITHUB_REF_NAME" "PixPress-${VERSION}.zip" \
+            --title "PixPress ${VERSION}" \
+            --notes-file /tmp/notes.md \
+            --latest
