@@ -15,7 +15,7 @@ if CommandLine.arguments.contains("--cli") {
 
 struct PixPressApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject private var model = AppModel()
+    @StateObject private var model = AppModel.shared
 
     var body: some Scene {
         WindowGroup("PixPress") {
@@ -37,6 +37,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
     }
+
+    /// Files opened via Finder's "Open With…", double-click, or dropped on the
+    /// Dock icon arrive here. Route them into the shared model.
+    func application(_ application: NSApplication, open urls: [URL]) {
+        AppModel.shared.addURLs(urls)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
     }

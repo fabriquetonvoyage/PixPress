@@ -54,6 +54,10 @@ enum OutputMode: String, CaseIterable, Identifiable {
 
 @MainActor
 final class AppModel: ObservableObject {
+    /// Shared instance so the file-open handler (AppDelegate) and the SwiftUI
+    /// UI operate on the same model.
+    static let shared = AppModel()
+
     @Published var items: [ImageItem] = []
 
     // Settings
